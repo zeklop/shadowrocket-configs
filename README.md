@@ -3,4 +3,4 @@
 
 Ссылка для добавления файла конфигурации - https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/template.conf
 
-Рекомендую данного поставщика виртуальных серверов для развертывания серверной части Shadowsocks/VLESS/VMESS/XTLS/wireguard - https://aeza.net/?ref=369292
+Рекомендую данного поставщика виртуальных серверов для развертывания своего личного VPN на базе Shadowsocks/VLESS/VMESS/XTLS/wireguard - https://aeza.net/?ref=369292
