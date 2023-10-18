@@ -1,0 +1,18 @@
+#GOOGLE
+DOMAIN,photos.google.com
+DOMAIN,tagassistant.google.com
+DOMAIN,tagmanager.google.com
+DOMAIN,analytics.google.com
+DOMAIN-SUFFIX,googletagmanager.com
+DOMAIN-SUFFIX,appspot.com
+DOMAIN,google.com
+DOMAIN-SUFFIX,gmail.com
+DOMAIN-SUFFIX,youtube.com
+DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,gstatic.com
+DOMAIN-SUFFIX,ggpht.com
+DOMAIN,ga-dev-tools.google
+#DOMAIN-SUFFIX, googleapis.com
+#DOMAIN-SUFFIX, googlevideo.com
+#DOMAIN-SUFFIX, googlesyndication.com
+#DOMAIN-SUFFIX, googleusercontent.com
