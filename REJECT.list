@@ -6,7 +6,7 @@ DOMAIN-KEYWORD,adriver
 DOMAIN-SUFFIX,tns-counter.ru
 DOMAIN-SUFFIX,an.yandex.ru
 DOMAIN-SUFFIX,yabs.yandex.ru
-DOMAIN-SUFFIX,amplitude.com
+#DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,intelliscapesolutions.com
 DOMAIN-SUFFIX,ad.mail.ru
 DOMAIN-SUFFIX,xray.mail.ru
