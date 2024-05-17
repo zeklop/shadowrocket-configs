@@ -1,5 +1,8 @@
 #GOOGLE
 DOMAIN,google.com
+DOMAIN,www.google.com
+DOMAIN,google.ru
+DOMAIN,www.google.ru
 DOMAIN,photos.google.com
 DOMAIN,docs.google.com
 DOMAIN,meet.google.com
@@ -15,7 +18,7 @@ DOMAIN-SUFFIX,youtube.com
 DOMAIN-SUFFIX,ytimg.com
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,ggpht.com
-#DOMAIN-SUFFIX, googleapis.com
-#DOMAIN-SUFFIX, googlevideo.com
-#DOMAIN-SUFFIX, googlesyndication.com
-#DOMAIN-SUFFIX, googleusercontent.com
+DOMAIN-SUFFIX, googleapis.com
+DOMAIN-SUFFIX, googlevideo.com
+DOMAIN-SUFFIX, googlesyndication.com
+DOMAIN-SUFFIX, googleusercontent.com
