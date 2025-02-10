@@ -37,4 +37,8 @@ DOMAIN-SUFFIX,metrics.icloud.com
 DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,intelliscapesolutions.com
 DOMAIN-SUFFIX,ingest.sentry.io
+DOMAIN-SUFFIX,tracking.intl.miui.com
+DOMAIN-SUFFIX,tracking.rus.miui.com
+DOMAIN-SUFFIX,browser-intake-datadoghq.com
+
 URL-REGEX,^https?://.+/videos1234/other/.+
