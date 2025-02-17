@@ -3,8 +3,8 @@ DOMAIN-KEYWORD,adjust
 DOMAIN-KEYWORD,adfox
 DOMAIN-KEYWORD,adriver
 DOMAIN-KEYWORD,appmetrica
-DOMAIN-SUFFIX,report.appmetrica.yandex.net
 DOMAIN-SUFFIX,an.yandex.ru
+DOMAIN-SUFFIX,mc.webvisor.org
 DOMAIN-SUFFIX,yabs.yandex.ru
 DOMAIN-SUFFIX,log.strm.yandex.ru
 DOMAIN-SUFFIX,yadro.ru
@@ -39,6 +39,12 @@ DOMAIN-SUFFIX,intelliscapesolutions.com
 DOMAIN-SUFFIX,ingest.sentry.io
 DOMAIN-SUFFIX,tracking.intl.miui.com
 DOMAIN-SUFFIX,tracking.rus.miui.com
+DOMAIN-SUFFIX,demdex.net
 DOMAIN-SUFFIX,browser-intake-datadoghq.com
+DOMAIN-SUFFIX,iadsdk.apple.com
+DOMAIN-SUFFIX,stocks-analytics-events.apple.com
+DOMAIN-SUFFIX,push4site.com
+DOMAIN-SUFFIX,luxcdn.com
+DOMAIN-SUFFIX,clarity.ms
 
 URL-REGEX,^https?://.+/videos1234/other/.+
