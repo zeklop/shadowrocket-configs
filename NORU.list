@@ -6,6 +6,7 @@ DOMAIN-SUFFIX,reddit.com
 DOMAIN-SUFFIX,habr.com
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,x.ai
 
 #ADS
 DOMAIN-KEYWORD,tiktok
@@ -20,3 +21,4 @@ DOMAIN-SUFFIX,facebook.com
 DOMAIN-SUFFIX,fbcdn.net
 DOMAIN-SUFFIX,fb.com
 DOMAIN-SUFFIX,meta.com
+DOMAIN-SUFFIX,x.com
