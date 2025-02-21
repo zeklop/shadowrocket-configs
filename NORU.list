@@ -2,10 +2,10 @@
 DOMAIN-KEYWORD,binance
 DOMAIN-KEYWORD,bybit
 DOMAIN-KEYWORD,redot
-DOMAIN-SUFFIX,stape.io
-DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,reddit.com
 DOMAIN-SUFFIX,habr.com
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,grok.com
 
 #ADS
 DOMAIN-KEYWORD,tiktok
