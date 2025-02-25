@@ -46,5 +46,7 @@ DOMAIN-SUFFIX,stocks-analytics-events.apple.com
 DOMAIN-SUFFIX,push4site.com
 DOMAIN-SUFFIX,luxcdn.com
 DOMAIN-SUFFIX,clarity.ms
+DOMAIN-SUFFIX,fsdifhj.com
+DOMAIN-SUFFIX,slackb.com
 
 URL-REGEX,^https?://.+/videos1234/other/.+
