@@ -1,15 +1,16 @@
 #PROXY
 DOMAIN-SUFFIX,reddit.com
 DOMAIN-SUFFIX,habr.com
-DOMAIN-KEYWORD,hostinger.com
+DOMAIN-SUFFIX,hostinger.com
 DOMAIN-SUFFIX,upwork.com
 DOMAIN-SUFFIX,fiverr.com
+DOMAIN-KEYWORD,torrent
 
 #AI
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,grok.com
-DOMAIN-KEYWORD,x.ai
+DOMAIN-SUFFIX,x.ai
 
 #FIN
 DOMAIN-KEYWORD,binance
