@@ -4,7 +4,6 @@ DOMAIN-SUFFIX,habr.com
 DOMAIN-SUFFIX,hostinger.com
 DOMAIN-SUFFIX,upwork.com
 DOMAIN-SUFFIX,fiverr.com
-DOMAIN-KEYWORD,torrent
 
 #AI
 DOMAIN-SUFFIX,openai.com
@@ -17,7 +16,6 @@ DOMAIN-KEYWORD,binance
 DOMAIN-KEYWORD,bybit
 DOMAIN-KEYWORD,redot
 DOMAIN-SUFFIX,payoneer.com
-DOMAIN-KEYWORD,bestchange
 
 #ADS
 DOMAIN-KEYWORD,stape
