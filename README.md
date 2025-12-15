@@ -7,4 +7,4 @@
 
 Ссылка для добавления файла конфигурации - https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/template.conf
 
-Рекомендую данного поставщика виртуальных серверов для развертывания своего личного VPN / Proxy на базе  VLESS / Reality / VMESS / XTLS / Trojan / Shadowsocks / Wireguard - https://aeza.net/?ref=369292 (подойдет самый простой VPS в любой неРФ локации). У них есть база знаниий с инструкциями по установке серверной части.
+Рекомендую данного поставщика виртуальных серверов для развертывания своего личного VPN / Proxy на базе  VLESS / Reality / VMESS / XTLS / Trojan / Shadowsocks / Amnezia / Wireguard - https://aeza.net/?ref=369292 - подойдет самый простой VPS в любой неРФ локации. У них есть база знаниий с инструкциями по установке серверной части. Рефка дает +15% баланса в течение 24 часов после регистрации.
