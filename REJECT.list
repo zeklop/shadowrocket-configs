@@ -3,6 +3,7 @@ DOMAIN-KEYWORD,adjust
 DOMAIN-KEYWORD,adfox
 DOMAIN-KEYWORD,adriver
 DOMAIN-KEYWORD,appmetrica
+DOMAIN-KEYWORD,appsflyersdk
 DOMAIN-SUFFIX,an.yandex.ru
 DOMAIN-SUFFIX,mc.webvisor.org
 DOMAIN-SUFFIX,yabs.yandex.ru
@@ -48,5 +49,8 @@ DOMAIN-SUFFIX,luxcdn.com
 DOMAIN-SUFFIX,clarity.ms
 DOMAIN-SUFFIX,fsdifhj.com
 DOMAIN-SUFFIX,slackb.com
+DOMAIN-SUFFIX,app-analytics-services.com
+DOMAIN-SUFFIX,liftoff.io
+DOMAIN-SUFFIX,vungle.com
 
 URL-REGEX,^https?://.+/videos1234/other/.+
