@@ -1,10 +1,11 @@
 #PROXY
-DOMAIN-SUFFIX,reddit.com
+#DOMAIN-SUFFIX,reddit.com
 DOMAIN-SUFFIX,habr.com
 DOMAIN-SUFFIX,hostinger.com
 DOMAIN-SUFFIX,upwork.com
 DOMAIN-SUFFIX,fiverr.com
 DOMAIN-SUFFIX,lookerstudio.google.com
+DOMAIN-SUFFIX,dash.cloudflare.com
 
 #AI
 DOMAIN-SUFFIX,openai.com
