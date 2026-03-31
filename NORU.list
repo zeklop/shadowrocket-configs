@@ -12,6 +12,7 @@ DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,grok.com
 DOMAIN-SUFFIX,x.ai
+DOMAIN-SUFFIX,gemini.google.com
 
 #FIN
 DOMAIN-KEYWORD,bybit
