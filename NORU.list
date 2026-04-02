@@ -13,11 +13,15 @@ DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,grok.com
 DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,gemini.google.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,anthropic.com
 
 #FIN
 DOMAIN-KEYWORD,bybit
 DOMAIN-KEYWORD,redot
 DOMAIN-SUFFIX,payoneer.com
+DOMAIN-SUFFIX,squareup.com
+DOMAIN-SUFFIX,paypal.com
 
 #ADS
 DOMAIN-KEYWORD,stape
