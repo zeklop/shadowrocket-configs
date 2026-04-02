@@ -6,6 +6,7 @@ DOMAIN-SUFFIX,upwork.com
 DOMAIN-SUFFIX,fiverr.com
 DOMAIN-SUFFIX,lookerstudio.google.com
 DOMAIN-SUFFIX,dash.cloudflare.com
+DOMAIN-SUFFIX,cloudfront.net
 
 #AI
 DOMAIN-SUFFIX,openai.com
