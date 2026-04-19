@@ -16,6 +16,8 @@ DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,claude.ai
 DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,vsassets.io
+DOMAIN-SUFFIX,visualstudio.com
 
 #FIN
 DOMAIN-KEYWORD,bybit
