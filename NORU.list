@@ -8,17 +8,6 @@ DOMAIN-SUFFIX,lookerstudio.google.com
 DOMAIN-SUFFIX,dash.cloudflare.com
 DOMAIN-SUFFIX,cloudfront.net
 
-#AI
-DOMAIN-SUFFIX,openai.com
-DOMAIN-SUFFIX,chatgpt.com
-DOMAIN-SUFFIX,grok.com
-DOMAIN-SUFFIX,x.ai
-DOMAIN-SUFFIX,gemini.google.com
-DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,anthropic.com
-DOMAIN-SUFFIX,vsassets.io
-DOMAIN-SUFFIX,visualstudio.com
-
 #FIN
 DOMAIN-KEYWORD,bybit
 DOMAIN-KEYWORD,redot
