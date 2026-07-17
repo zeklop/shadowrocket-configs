@@ -6,7 +6,6 @@ DOMAIN-SUFFIX,upwork.com
 DOMAIN-SUFFIX,fiverr.com
 DOMAIN-SUFFIX,lookerstudio.google.com
 DOMAIN-SUFFIX,dash.cloudflare.com
-DOMAIN-SUFFIX,cloudfront.net
 
 #FIN
 DOMAIN-KEYWORD,bybit
@@ -30,3 +29,9 @@ DOMAIN-SUFFIX,facebook.com
 DOMAIN-SUFFIX,fbcdn.net
 DOMAIN-SUFFIX,fb.com
 DOMAIN-SUFFIX,meta.com
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,cdninstagram.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,threads.com
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net

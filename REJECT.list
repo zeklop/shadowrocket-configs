@@ -1,9 +1,14 @@
 #REJECT
-DOMAIN-KEYWORD,adjust
 DOMAIN-KEYWORD,adfox
 DOMAIN-KEYWORD,adriver
 DOMAIN-KEYWORD,appmetrica
 DOMAIN-KEYWORD,appsflyersdk
+DOMAIN-KEYWORD,criteo
+#Adjust: официальные эндпоинты SDK, суффикс adjust.com накрывает и eu./us./tr.
+DOMAIN-SUFFIX,adjust.com
+DOMAIN-SUFFIX,adjust.cn
+DOMAIN-SUFFIX,adjust.net.in
+DOMAIN-SUFFIX,adjust.world
 DOMAIN-SUFFIX,an.yandex.ru
 DOMAIN-SUFFIX,mc.webvisor.org
 DOMAIN-SUFFIX,yabs.yandex.ru
@@ -34,7 +39,6 @@ DOMAIN-SUFFIX,metrics.icloud.com
 DOMAIN-SUFFIX,visor.sberbank.ru
 DOMAIN-SUFFIX,dsp.upravel.com
 DOMAIN-SUFFIX,collector.github.com
-DOMAIN-SUFFIX,metrics.icloud.com
 DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,intelliscapesolutions.com
 DOMAIN-SUFFIX,ingest.sentry.io
@@ -52,5 +56,12 @@ DOMAIN-SUFFIX,slackb.com
 DOMAIN-SUFFIX,app-analytics-services.com
 DOMAIN-SUFFIX,liftoff.io
 DOMAIN-SUFFIX,vungle.com
-
-URL-REGEX,^https?://.+/videos1234/other/.+
+DOMAIN-SUFFIX,2mdn.net
+DOMAIN-SUFFIX,adnxs.com
+DOMAIN-SUFFIX,mgid.com
+DOMAIN-SUFFIX,taboola.com
+DOMAIN-SUFFIX,outbrain.com
+DOMAIN-SUFFIX,fullstory.com
+DOMAIN-SUFFIX,logrocket.com
+DOMAIN-SUFFIX,mixpanel.com
+DOMAIN-SUFFIX,segment.io

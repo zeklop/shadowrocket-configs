@@ -4,5 +4,16 @@ DOMAIN-SUFFIX,xn--p1ai
 DOMAIN-KEYWORD,yandex
 DOMAIN-KEYWORD,yastatic
 DOMAIN-SUFFIX,vk.com
+DOMAIN-SUFFIX,vk.me
+DOMAIN-SUFFIX,vk-cdn.net
+DOMAIN-SUFFIX,vk-portal.net
+DOMAIN-SUFFIX,vkuseraudio.net
+DOMAIN-SUFFIX,vkuservideo.net
 DOMAIN-SUFFIX,userapi.com
+DOMAIN-SUFFIX,mycdn.me
+DOMAIN-SUFFIX,2gis.com
+DOMAIN-SUFFIX,doublegis.com
+DOMAIN-SUFFIX,ozon.pro
+DOMAIN-SUFFIX,ozonusercontent.com
+DOMAIN-SUFFIX,avito.st
 #DOMAIN-SUFFIX,salebot.pro
