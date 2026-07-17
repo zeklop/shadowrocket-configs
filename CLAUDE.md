@@ -68,12 +68,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## DNS
 
 ```
-dns-server = tls://common.dot.dns.yandex.net, tls://unfiltered.adguard-dns.com
-fallback-dns-server = https://dns.google/dns-query#proxy, https://cloudflare-dns.com/dns-query#proxy, quic://dns.quad9.net, system
+dns-server = quic://dns11.quad9.net, tls://common.dot.dns.yandex.net
+fallback-dns-server = https://dns.google/dns-query#proxy, https://cloudflare-dns.com/dns-query#proxy, system
 ```
 
-Несколько серверов в `dns-server` опрашиваются **параллельно, побеждает быстрейший** — это гонка, а не резерв. Резерв — `fallback-dns-server`. Поэтому нельзя подмешивать сюда фильтрующий резолвер: `dns.comss.one` отдаёт `0.0.0.0` на `mc.yandex.ru`, и Метрика начала бы отваливаться через раз.
+Несколько серверов в `dns-server` опрашиваются **параллельно, побеждает быстрейший** — это гонка, а не резерв, порядок в строке ни на что не влияет. Резерв — `fallback-dns-server`. Поэтому нельзя подмешивать сюда фильтрующий резолвер: `dns.comss.one` отдаёт `0.0.0.0` на `mc.yandex.ru`, и Метрика отваливалась бы через раз.
 
-Суффикс `#proxy` гонит запрос через прокси — так Cloudflare недосягаем для блокировок. Quad9 стоит без `#proxy` намеренно: QUIC работает по UDP, а UDP-релей на прокси есть не всегда.
+**Собственный DNS-трафик Shadowrocket не проходит через `[Rule]`** — его делает процесс туннеля напрямую. Правила вида `DOMAIN-SUFFIX,quad9.net,DIRECT` на резолвер не влияют, они про трафик приложений. Единственное, что уводит DNS в прокси, — суффикс `#proxy`; он стоит на Google и Cloudflare осознанно, чтобы резолвить изнутри туннеля.
 
-Синтаксис: `tls://` (DoT), `quic://` (DoQ), `h3://` (DoH3), `https://` (DoH).
+Замерено на macOS 17.07.2026, 80 резолвов: `quic://dns11.quad9.net` выигрывает гонку у Яндекса **со счётом 80:0**, 68–73 мс против 76–151. Вариант `dns11`, а не `dns.quad9.net`, выбран из-за ECS: он сообщает подсеть клиента, и CDN отдаёт ближний edge. Малварь он фильтрует, но Метрику, GTM, Ads и Stape не трогает — проверено. AdGuard из основных убран: не выиграл ни одной гонки.
+
+Синтаксис: `tls://` (DoT), `quic://` (DoQ), `h3://` (DoH3), `https://` (DoH). У Яндекса **нет DoH**, только DoT.
