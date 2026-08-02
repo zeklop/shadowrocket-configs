@@ -44,13 +44,15 @@
 
 `simple.conf` рассчитан на одно подключение и не требует настройки групп. `template.conf` добавляет группы прокси, чтобы разные сервисы выходили через разные страны.
 
-| | `simple.conf` | `template.conf` |
-|---|---|---|
-| Групп прокси | нет | `NL`, `US`, `RU` |
-| Подключений нужно | одно | по числу групп |
-| Комментарии в файле | на каждой строке | нет |
-| Кому | начинающим | тем, кто хочет разделить трафик |
-| Ссылка | [добавить](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/simple.conf) | [добавить](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/template.conf) |
+| | `simple.conf` | `simple-nextdns.conf` | `template.conf` |
+|---|---|---|---|
+| Групп прокси | нет | нет | `NL`, `US`, `RU` |
+| Подключений нужно | одно | одно | по числу групп |
+| DNS-резолвер | Quad9 + Яндекс | NextDNS по DoH через туннель (`#proxy`) | Quad9 + Яндекс |
+| Кому | начинающим | пользователям NextDNS (родительский контроль, расписание) | тем, кто хочет разделить трафик |
+| Ссылка | [добавить](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/simple.conf) | [добавить](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/simple-nextdns.conf) | [добавить](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/template.conf) |
+
+В `simple-nextdns.conf` DNS-запросы идут в NextDNS через прокси-туннель. Перед использованием укажите ваш ID профиля NextDNS вместо `xxxxxx` в строке `dns-server`.
 
 В [`template.conf`](https://raw.githubusercontent.com/zeklop/shadowrocket-configs/main/template.conf) `NORU.list` и `YOUTUBE.list` идут через NL, `AI.list` — через US. Имена ваших подключений в Shadowrocket должны совпадать с именами групп: `NL`, `US`, `RU`.
 
