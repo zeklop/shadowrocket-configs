@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Заменить Xbox DNS на Comss.one для Google/Gemini и направлять напрямую только фактический Smart DNS-шлюз Comss.
+**Goal:** Заменить Xbox DNS на Comss.one для Google/Gemini, сохранив весь DNS- и сервисный трафик внутри выбранного прокси.
 
-**Architecture:** Широкие Google-маски в `[Host]` продолжают принудительно резолвиться локально, но через `https://dns.comss.one/dns-query`. Правило на `45.88.174.254/32` стоит выше Google logical rules: Comss-шлюз идёт `DIRECT`, обычные Google IP остаются `PROXY`.
+**Architecture:** Широкие Google-маски в `[Host]` продолжают принудительно резолвиться локально через `https://dns.comss.one/dns-query#proxy`. Широкие Google logical rules оставляют весь последующий трафик на `PROXY`; правил `DIRECT` для Google или Comss нет. Это обязательное ограничение региона с белыми списками.
 
 **Tech Stack:** Shadowrocket config, DoH, Git, `scripts/check_lists.py`, live API Shadowrocket.
 
@@ -26,7 +26,7 @@
 
 **Interfaces:**
 - Consumes: DoH `https://dns.comss.one/dns-query`, Smart DNS gateway `45.88.174.254`.
-- Produces: конфиг, где Comss gateway идёт `DIRECT`, а остальные Google IP — `PROXY`.
+- Produces: конфиг, где запросы к Comss DoH и весь Google-трафик идут через `PROXY`.
 
 - [ ] **Step 1: Зафиксировать исходное состояние**
 
@@ -35,23 +35,17 @@ Run:
 ```bash
 rg -c 'xbox-dns.ru/dns-query' simple-dns.conf
 rg -c 'dns.comss.one/dns-query' simple-dns.conf || true
-rg -c '^IP-CIDR,45\.88\.174\.254/32,DIRECT,no-resolve$' simple-dns.conf || true
+rg -c 'dns.comss.one/dns-query#proxy' simple-dns.conf || true
 ```
 
-Expected: Xbox `17`, Comss `0`, gateway rule `0`.
+Expected: Xbox `17`, Comss через proxy `0`.
 
 - [ ] **Step 2: Внести минимальную правку**
 
 В `simple-dns.conf`:
 
 ```ini
-fallback-dns-server = https://dns.comss.one/dns-query
-```
-
-Перед Instagram/Google logical rules добавить:
-
-```ini
-IP-CIDR,45.88.174.254/32,DIRECT,no-resolve
+fallback-dns-server = https://dns.comss.one/dns-query#proxy
 ```
 
 Во всех широких Google-записях `[Host]` заменить:
@@ -63,7 +57,7 @@ server:https://xbox-dns.ru/dns-query
 на:
 
 ```ini
-server:https://dns.comss.one/dns-query
+server:https://dns.comss.one/dns-query#proxy
 ```
 
 Обновить `# UPDATED:` и комментарий fallback. Остальные строки не менять.
@@ -75,7 +69,9 @@ Run:
 ```bash
 ! rg -q 'xbox-dns.ru/dns-query' simple-dns.conf
 test "$(rg -c 'dns.comss.one/dns-query' simple-dns.conf)" = 17
-test "$(rg -c '^IP-CIDR,45\.88\.174\.254/32,DIRECT,no-resolve$' simple-dns.conf)" = 1
+test "$(rg -c 'dns.comss.one/dns-query#proxy' simple-dns.conf)" = 17
+! rg -q '^IP-CIDR,45\.88\.174\.254/32,DIRECT,no-resolve$' simple-dns.conf
+! rg -q 'dns\.comss\.one/dns-query$' simple-dns.conf
 git diff --check
 python3 scripts/check_lists.py
 ```
@@ -142,8 +138,8 @@ curl --max-time 10 http://192.168.1.73:1082/api/log
 
 Expected:
 
-- `robinfrontend-pa.googleapis.com` и другие перенаправленные Comss домены получают `45.88.174.254` от `https://dns.comss.one/dns-query`;
-- соединение к `45.88.174.254` матчит `IP-CIDR,45.88.174.254/32,DIRECT,no-resolve`;
+- `robinfrontend-pa.googleapis.com` и другие перенаправленные Comss домены получают `45.88.174.254` от `https://dns.comss.one/dns-query#proxy`;
+- DNS-запрос к Comss и соединение к `45.88.174.254` идут через выбранный прокси; записей `DIRECT` для Google и Comss нет;
 - OAuth и обычные Google IP матчат широкие Google logical rules с `PROXY`;
 - Instagram/Meta продолжает использовать NextDNS и `PROXY`;
 - Gemini не показывает geo restriction после повторного холодного запуска.

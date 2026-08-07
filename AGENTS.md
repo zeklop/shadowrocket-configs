@@ -12,7 +12,7 @@
 
 - `simple.conf` — для новичков, входная точка из README. Комментарий на каждой строке, секции `[Proxy Group]` нет: одно подключение и всё.
 - `template.conf` — полный, с группами `NL`/`US`/`RU`.
-- `simple-dns.conf` — экспериментальный split DNS: глобально Yandex Safe DoH, Instagram/Meta через NextDNS, Google/Gemini через Xbox DNS. В README не выносить без отдельного решения.
+- `simple-dns.conf` — экспериментальный split DNS: глобально Yandex Safe DoH, Instagram/Meta через NextDNS, Google/Gemini через Comss.one. Оба назначенных DoH идут через выбранный прокси. В README не выносить без отдельного решения.
 - `docs/sub-conversion.md` — инструкция и Python-скрипт конвертации подписок Sing-Box / INCY с HWID-авторизацией в формат VLESS Base64 для Shadowrocket.
 
 Идея: РУ-трафик идёт `DIRECT`, всё остальное — через прокси, реклама и трекеры режутся в `REJECT`.
@@ -114,7 +114,7 @@ fallback-dns-server = https://dns.google/dns-query#proxy, https://cloudflare-dns
 
 Несколько серверов в `dns-server` опрашиваются **параллельно, побеждает быстрейший** — это гонка, а не резерв, порядок в строке ни на что не влияет. Резерв — `fallback-dns-server`. Поэтому нельзя подмешивать сюда фильтрующий резолвер: `dns.comss.one` отдаёт `0.0.0.0` на `mc.yandex.ru`, и Метрика отваливалась бы через раз.
 
-**Собственный DNS-трафик Shadowrocket не проходит через `[Rule]`** — его делает процесс туннеля напрямую. Правила вида `DOMAIN-SUFFIX,quad9.net,DIRECT` на резолвер не влияют, они про трафик приложений. Единственное, что уводит DNS в прокси, — суффикс `#proxy`; в основных конфигах он стоит на Google и Cloudflare, а в `simple-dns.conf` — на NextDNS для Instagram/Meta.
+**Собственный DNS-трафик Shadowrocket не проходит через `[Rule]`** — его делает процесс туннеля напрямую. Правила вида `DOMAIN-SUFFIX,quad9.net,DIRECT` на резолвер не влияют, они про трафик приложений. Единственное, что уводит DNS в прокси, — суффикс `#proxy`; в основных конфигах он стоит на Google и Cloudflare, а в `simple-dns.conf` — на NextDNS для Instagram/Meta и Comss для Google/Gemini.
 
 Замерено на живом клиенте 17.07.2026: **Яндекс и Quad9 примерно равны**, медиана 62 и 73 мс, Яндекс выигрывает около 70% гонок. Разница в пределах шума и плавает во времени — назначать «быстрейшего» руками не нужно и вредно, гонка сама подстраивается под сеть на каждом запросе.
 
@@ -141,7 +141,7 @@ example.com = server:https://resolver.example/dns-query
 *.example.com = server:https://resolver.example/dns-query
 ```
 
-`IP-CIDR` внутри logical rule заставляет Shadowrocket получить реальный IP локально, а внешняя политика остаётся `PROXY`. Эта формула подходит обычному split DNS, но не гарантирует совместимость со Smart DNS: если резолвер вернул адрес собственного шлюза, этот адрес обычно должен идти `DIRECT`, а не вторым слоем через VPN. Добавлять сервисный домен в `skip-proxy` для принудительного DNS нельзя: Shadowrocket превращает такую запись в `DOMAIN-SUFFIX,...,DIRECT` без разбора того, что именно вернул резолвер.
+`IP-CIDR` внутри logical rule заставляет Shadowrocket получить реальный IP локально, а внешняя политика остаётся `PROXY`. Добавлять сервисный домен в `skip-proxy` для принудительного DNS нельзя: Shadowrocket превращает такую запись в `DOMAIN-SUFFIX,...,DIRECT` без разбора того, что именно вернул резолвер.
 
 `fallback-dns-server` глобален и срабатывает при ошибке или таймауте основного/назначенного DNS примерно через две секунды. Пустое значение также означает `system`; отдельного fallback для конкретной записи `[Host]` нет. Это принципиальное ограничение split DNS: `fallback-dns-server = system` позволил Gemini после таймаута Xbox DNS получить обычный IP через DNS провайдера. Резерв поэтому приходится назначать тем же Smart DNS. Цена решения: если NextDNS для Instagram не ответит, его резервом станет Smart DNS, а не system; для Comss это дополнительно означает его фильтрацию.
 
@@ -151,15 +151,15 @@ example.com = server:https://resolver.example/dns-query
 - `withgoogle.com`, `deepmind.com`;
 - зоны `.google` и `.goog`.
 
-Эксперимент с Xbox DNS оказался нестабилен. Он переписывал `robinfrontend-pa.googleapis.com` в `87.228.47.204`, но правило отправляло этот Smart DNS-шлюз через польский VLESS. Gemini кратковременно заработал, затем снова показал geo restriction при корректном DNS-ответе и без утечки в system. Это не пропущенный домен, а двойная маршрутизация: официальный Xbox DNS заявляет работу напрямую, и найденный рабочий Shadowrocket-конфиг также направляет Google AI в `DIRECT`.
+Эксперимент с Xbox DNS оказался нестабилен. Он переписывал `robinfrontend-pa.googleapis.com` в `87.228.47.204`, но Gemini после кратковременного успеха снова показал geo restriction при корректном DNS-ответе и без утечки в system. Xbox рассчитан на прямое подключение, а в регионе пользователя действует белый список: `DIRECT` там непригоден, весь сервисный трафик обязан идти через прокси.
 
 Следующий согласованный эксперимент — Comss.one DNS:
 
 - DoH: `https://dns.comss.one/dns-query`, bootstrap IP по официальной инструкции — `195.133.25.16`;
-- широкие Google-семейства в `[Host]` остаются, меняется только назначенный резолвер;
+- широкие Google-семейства в `[Host]` остаются, назначенный резолвер меняется на `https://dns.comss.one/dns-query#proxy`;
 - Comss вернул шлюз `45.88.174.254` для `gemini.google.com`, `robinfrontend-pa.googleapis.com` и `subscriptionsfirstparty-pa.googleapis.com`; OAuth, `www.google.com`, `signaler-pa` и `notifications-pa` получили обычные Google IP;
-- правило `IP-CIDR,45.88.174.254/32,DIRECT,no-resolve` должно стоять выше широких Google logical rules: только трафик на фактический Smart DNS-шлюз идёт напрямую, обычный Google остаётся `PROXY`;
-- `fallback-dns-server` меняется на Comss, иначе таймаут снова утечёт в system; глобальный основной DNS остаётся Yandex Safe DoH, Instagram/Meta остаётся на NextDNS;
-- критерий успеха: после холодного перезапуска Gemini стабильно работает, `45.88.174.254` матчит `DIRECT`, остальные Google-хосты — `PROXY`, Instagram продолжает резолвиться через NextDNS.
+- отдельного правила `DIRECT` для `45.88.174.254` нет: DNS-запрос к Comss и последующее соединение Gemini выходят через один выбранный VLESS;
+- `fallback-dns-server` меняется на `https://dns.comss.one/dns-query#proxy`, иначе таймаут снова утечёт в system; глобальный основной DNS остаётся Yandex Safe DoH, Instagram/Meta остаётся на NextDNS;
+- критерий успеха: после холодного перезапуска Gemini стабильно работает, все Google-хосты матчат `PROXY`, записей `DIRECT` для Google и Comss нет, Instagram продолжает резолвиться через NextDNS.
 
 Instagram/Meta использует ту же схему с NextDNS-профилем `dc5494#proxy` для семейств `instagram.com`, `cdninstagram.com`, `facebook.com` и `fbcdn.net`. На живом тесте все 59 наблюдавшихся Meta-соединений остались `PROXY`, `DIRECT` не было, а NextDNS обслужил 43 успешных ответа по 20 уникальным хостам.
