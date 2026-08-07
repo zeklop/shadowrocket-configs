@@ -4,7 +4,7 @@
 
 ## Что это
 
-Не программа, а набор данных: два конфига Shadowrocket и списки правил маршрутизации (`*.list`) для РФ. Сборки нет, приложение локально не запустить.
+Не программа, а набор данных: три конфига Shadowrocket и списки правил маршрутизации (`*.list`) для РФ. Сборки нет, приложение локально не запустить.
 
 Единственная проверка — `python3 scripts/check_lists.py`. **Гонять перед каждым push.** Она ловит коллизии между списками, дубли, битый синтаксис, `RULE-SET` на несуществующий файл, `update-url` на чужой конфиг, нарушенную сортировку `AI.list` и несуществующие домены (NXDOMAIN). Тот же скрипт крутится в `.github/workflows/check.yml`, но там он срабатывает **после** push, то есть уже после деплоя — как вторая линия, а не как ворота.
 
@@ -12,12 +12,14 @@
 
 - `simple.conf` — для новичков, входная точка из README. Комментарий на каждой строке, секции `[Proxy Group]` нет: одно подключение и всё.
 - `template.conf` — полный, с группами `NL`/`US`/`RU`.
+- `simple-dns.conf` — экспериментальный split DNS: глобально Yandex Safe DoH, Instagram/Meta через NextDNS, Google/Gemini через Xbox DNS. В README не выносить без отдельного решения.
+- `docs/sub-conversion.md` — инструкция и Python-скрипт конвертации подписок Sing-Box / INCY с HWID-авторизацией в формат VLESS Base64 для Shadowrocket.
 
 Идея: РУ-трафик идёт `DIRECT`, всё остальное — через прокси, реклама и трекеры режутся в `REJECT`.
 
 ## Деплой = push в main
 
-Клиенты тянут файлы по `raw.githubusercontent.com/zeklop/shadowrocket-configs/main/...`, `update-url` в обоих конфигах задаёт `interval=60`. Отдельного шага релиза нет: коммит в `main` разъезжается по пользователям в течение часа. Отката через CI не существует. Сломанное правило — это сломанный интернет у чужих людей. **Правки в `main` — только по явной просьбе.**
+Клиенты тянут файлы по `raw.githubusercontent.com/zeklop/shadowrocket-configs/main/...`, `update-url` в каждом конфиге задаёт `interval=60`. Отдельного шага релиза нет: коммит в `main` разъезжается по пользователям в течение часа. Отката через CI не существует. Сломанное правило — это сломанный интернет у чужих людей. **Правки в `main` — только по явной просьбе.**
 
 **Правка доезжает минутами, а не мгновенно.** `raw.githubusercontent.com` отдаёт `cache-control: max-age=300` — пять минут CDN держит старую версию даже при ручном переподключении в приложении. Потом до часа тикает `interval=60`. Проверять свежесть так: `curl -sI <raw-url> | grep -i age`, а содержимое дёргать с `?cb=$RANDOM`. Практическое следствие: аварийный откат — это минуты, а не секунды, и «я переключил, а изменений нет» обычно означает кеш, а не сломанный конфиг.
 
@@ -33,9 +35,11 @@
 
 `simple.conf`: REJECT → RUSSIA(DIRECT) → `DOMAIN-SUFFIX,ru` → `#GEOIP,RU` → FINAL,PROXY
 
+`simple-dns.conf`: REJECT → Instagram/Meta и Google (локальный DNS + PROXY) → RUSSIA(DIRECT) → `DOMAIN-SUFFIX,ru` → `#GEOIP,RU` → FINAL,PROXY
+
 Следствия:
 
-- **`GEOIP,RU` закомментирован в обоих** — маршрутизация только по доменам. Значит `RUSSIA.list` — единственная страховка для РУ-сайтов вне зоны `.ru`, страховки по IP больше нет.
+- **`GEOIP,RU` закомментирован во всех конфигах** — маршрутизация только по доменам. Значит `RUSSIA.list` — единственная страховка для РУ-сайтов вне зоны `.ru`, страховки по IP больше нет.
 - Один домен в двух списках → выигрывает тот, что выше. Перед добавлением домена — `grep` по всем `*.list`.
 - `DOMAIN-SUFFIX,ru` продублирован в `RUSSIA.list` и в самих конфигах. Безвредно, оба ведут в DIRECT.
 - YOUTUBE стоит выше AI не случайно: `youtubei.googleapis.com` — поддомен `googleapis.com`.
@@ -60,9 +64,17 @@
 
 Поле `c2result` в proxy-логе — **сработавшее правило целиком**, вида `DOMAIN-SUFFIX,2gis.com,DIRECT` или `FINAL,PROXY # <имя подключения>`. Это прямой ответ на вопрос «куда ушёл домен и почему».
 
+На iPhone доступен live-лог по `http://<ip-устройства>:1082/api/log`. Ответ потоковый и сам не завершается, поэтому читать через `curl --max-time 5–10`. В начале лога видны загруженный конфиг, число обычных и logical rules, основной и fallback DNS. Для проверки split DNS нужны три типа записей:
+
+- `dns response record`: `host`, полученный `result` и фактический `server`;
+- `tcp rule`: сработавшее правило и итоговая политика;
+- `proxy lookup host` / `connect stream`: реальный тип подключения и адрес прокси.
+
+Не считать одного успешного запуска доказательством: приложение могло использовать прогретый DNS-кеш. После установки конфига переподключить Shadowrocket, полностью выгрузить приложение, запустить заново и проверить свежие записи.
+
 Грабли, на которых уже стояли:
 
-- **Резолвятся только DIRECT-домены.** Проксируемые получают fake-IP и наверх не идут, в DNS-логе их нет. Чтобы породить DNS-трафик, дёргать РУ-сайты, а не зарубежные.
+- **По умолчанию резолвятся только DIRECT-домены.** Проксируемые получают fake-IP и наверх не идут, в DNS-логе их нет. Исключение — принудительный local DNS через `always-real-ip` + logical rule с `IP-CIDR`, как в `simple-dns.conf`.
 - **В DNS-логе только победитель гонки.** Замеров проигравшего не существует — по логу нельзя сравнивать скорость резолверов, если они в одной строке `dns-server`.
 - **Свой трафик не считать за трафик клиента.** Запросы скрипта к резолверу идут через туннель как обычное приложение и попадают в proxy-лог под `FINAL,PROXY`. Собственный DNS Shadowrocket туда не попадает вообще — это и есть признак, что резолвер идёт мимо правил.
 - Активный конфиг: `CurrentRuleFileName` в `~/Library/Group Containers/group.com.liguangming.Shadowrocket/Library/Preferences/group.com.liguangming.Shadowrocket.plist`. `.db.rule` — бинарь, `strings` по нему ничего не доказывает.
@@ -91,7 +103,7 @@
 
 ## Перед добавлением домена — проверить, что он существует
 
-`ozon-os.solutions` был скопирован из чужого конфига и оказался NXDOMAIN. Чужие конфиги — источник идей, не истины. Так же `https://common.dot.dns.yandex.net/dns-query` из чужого конфига оказался нерабочим: у Яндекса нет DoH, только DoT.
+`ozon-os.solutions` был скопирован из чужого конфига и оказался NXDOMAIN. Чужие конфиги — источник идей, не истины. `https://common.dot.dns.yandex.net/dns-query` из чужого конфига не работает, но не надо обобщать это до «у Яндекса нет DoH»: `https://safe.dot.dns.yandex.net/dns-query` проверен на живом Shadowrocket и работает как Yandex Safe DoH.
 
 ## DNS
 
@@ -102,7 +114,7 @@ fallback-dns-server = https://dns.google/dns-query#proxy, https://cloudflare-dns
 
 Несколько серверов в `dns-server` опрашиваются **параллельно, побеждает быстрейший** — это гонка, а не резерв, порядок в строке ни на что не влияет. Резерв — `fallback-dns-server`. Поэтому нельзя подмешивать сюда фильтрующий резолвер: `dns.comss.one` отдаёт `0.0.0.0` на `mc.yandex.ru`, и Метрика отваливалась бы через раз.
 
-**Собственный DNS-трафик Shadowrocket не проходит через `[Rule]`** — его делает процесс туннеля напрямую. Правила вида `DOMAIN-SUFFIX,quad9.net,DIRECT` на резолвер не влияют, они про трафик приложений. Единственное, что уводит DNS в прокси, — суффикс `#proxy`; он стоит на Google и Cloudflare осознанно, чтобы резолвить изнутри туннеля.
+**Собственный DNS-трафик Shadowrocket не проходит через `[Rule]`** — его делает процесс туннеля напрямую. Правила вида `DOMAIN-SUFFIX,quad9.net,DIRECT` на резолвер не влияют, они про трафик приложений. Единственное, что уводит DNS в прокси, — суффикс `#proxy`; в основных конфигах он стоит на Google и Cloudflare, а в `simple-dns.conf` — на NextDNS для Instagram/Meta.
 
 Замерено на живом клиенте 17.07.2026: **Яндекс и Quad9 примерно равны**, медиана 62 и 73 мс, Яндекс выигрывает около 70% гонок. Разница в пределах шума и плавает во времени — назначать «быстрейшего» руками не нужно и вредно, гонка сама подстраивается под сеть на каждом запросе.
 
@@ -110,4 +122,44 @@ fallback-dns-server = https://dns.google/dns-query#proxy, https://cloudflare-dns
 
 Вариант `dns11`, а не `dns.quad9.net`, взят из-за ECS: он сообщает подсеть клиента, и CDN отдаёт ближний edge. Ценой скорости — точка anycast у `dns11` с этой машины медленнее. Малварь он фильтрует, но Метрику, GTM, Ads и Stape не трогает — проверено. AdGuard из основных убран: за 80 гонок не выиграл ни одной.
 
-Синтаксис: `tls://` (DoT), `quic://` (DoQ), `h3://` (DoH3), `https://` (DoH). У Яндекса **нет DoH**, только DoT.
+Синтаксис: `tls://` (DoT), `quic://` (DoQ), `h3://` (DoH3), `https://` (DoH).
+
+### Split DNS в `simple-dns.conf`
+
+По умолчанию проксируемый домен получает fake-IP и резолвится на удалённой стороне прокси. Одной записи `domain = server:...` в `[Host]` недостаточно. Рабочая схема на Shadowrocket build 3378 состоит из трёх частей:
+
+```ini
+[General]
+always-real-ip = example.com, *.example.com
+use-local-host-item-for-proxy = true
+
+[Rule]
+AND,((DOMAIN-SUFFIX,example.com),(IP-CIDR,0.0.0.0/0)),PROXY
+
+[Host]
+example.com = server:https://resolver.example/dns-query
+*.example.com = server:https://resolver.example/dns-query
+```
+
+`IP-CIDR` внутри logical rule заставляет Shadowrocket получить реальный IP локально, а внешняя политика остаётся `PROXY`. Эта формула подходит обычному split DNS, но не гарантирует совместимость со Smart DNS: если резолвер вернул адрес собственного шлюза, этот адрес обычно должен идти `DIRECT`, а не вторым слоем через VPN. Добавлять сервисный домен в `skip-proxy` для принудительного DNS нельзя: Shadowrocket превращает такую запись в `DOMAIN-SUFFIX,...,DIRECT` без разбора того, что именно вернул резолвер.
+
+`fallback-dns-server` глобален и срабатывает при ошибке или таймауте основного/назначенного DNS примерно через две секунды. Пустое значение также означает `system`; отдельного fallback для конкретной записи `[Host]` нет. Это принципиальное ограничение split DNS: `fallback-dns-server = system` позволил Gemini после таймаута Xbox DNS получить обычный IP через DNS провайдера. Резерв поэтому приходится назначать тем же Smart DNS. Цена решения: если NextDNS для Instagram не ответит, его резервом станет Smart DNS, а не system; для Comss это дополнительно означает его фильтрацию.
+
+Для Gemini точечного набора доменов недостаточно. Приложение фактически обращалось как минимум к `robinfrontend-pa.googleapis.com`, `oauthaccountmanager.googleapis.com`, `oauth2.googleapis.com`, `signaler-pa.googleapis.com`, `subscriptionsfirstparty-pa.googleapis.com`, `notifications-pa.googleapis.com` и `www.google.com`. DNS нужно назначать широким семействам:
+
+- `google.com`, `googleapis.com`, `gstatic.com`, `googleusercontent.com`;
+- `withgoogle.com`, `deepmind.com`;
+- зоны `.google` и `.goog`.
+
+Эксперимент с Xbox DNS оказался нестабилен. Он переписывал `robinfrontend-pa.googleapis.com` в `87.228.47.204`, но правило отправляло этот Smart DNS-шлюз через польский VLESS. Gemini кратковременно заработал, затем снова показал geo restriction при корректном DNS-ответе и без утечки в system. Это не пропущенный домен, а двойная маршрутизация: официальный Xbox DNS заявляет работу напрямую, и найденный рабочий Shadowrocket-конфиг также направляет Google AI в `DIRECT`.
+
+Следующий согласованный эксперимент — Comss.one DNS:
+
+- DoH: `https://dns.comss.one/dns-query`, bootstrap IP по официальной инструкции — `195.133.25.16`;
+- широкие Google-семейства в `[Host]` остаются, меняется только назначенный резолвер;
+- Comss вернул шлюз `45.88.174.254` для `gemini.google.com`, `robinfrontend-pa.googleapis.com` и `subscriptionsfirstparty-pa.googleapis.com`; OAuth, `www.google.com`, `signaler-pa` и `notifications-pa` получили обычные Google IP;
+- правило `IP-CIDR,45.88.174.254/32,DIRECT,no-resolve` должно стоять выше широких Google logical rules: только трафик на фактический Smart DNS-шлюз идёт напрямую, обычный Google остаётся `PROXY`;
+- `fallback-dns-server` меняется на Comss, иначе таймаут снова утечёт в system; глобальный основной DNS остаётся Yandex Safe DoH, Instagram/Meta остаётся на NextDNS;
+- критерий успеха: после холодного перезапуска Gemini стабильно работает, `45.88.174.254` матчит `DIRECT`, остальные Google-хосты — `PROXY`, Instagram продолжает резолвиться через NextDNS.
+
+Instagram/Meta использует ту же схему с NextDNS-профилем `dc5494#proxy` для семейств `instagram.com`, `cdninstagram.com`, `facebook.com` и `fbcdn.net`. На живом тесте все 59 наблюдавшихся Meta-соединений остались `PROXY`, `DIRECT` не было, а NextDNS обслужил 43 успешных ответа по 20 уникальным хостам.
