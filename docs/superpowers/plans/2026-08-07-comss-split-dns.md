@@ -1,5 +1,7 @@
 # Comss Split DNS Implementation Plan
 
+> **Status: superseded 2026-08-08.** Эксперимент удалён из `simple-dns.conf`: один глобальный fallback несовместим с одновременными схемами NextDNS для Instagram и Smart DNS для Gemini. Этот план хранится только как история и не должен исполняться.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Заменить Xbox DNS на Comss.one для Google/Gemini, сохранив весь DNS- и сервисный трафик внутри выбранного прокси.
