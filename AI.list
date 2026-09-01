@@ -1,33 +1,69 @@
-#AI
+# ==========================================
+# AI & Dev Tools (Shadowrocket / Surge Format)
+# ==========================================
 
-#Gemini / AI Studio - точечно, чтобы не утащить в US весь Google
+# Google Gemini / AI Studio (точечно, чтобы не утащить в туннель весь Google)
 DOMAIN,aistudio.google.com
+DOMAIN,alkalimakersuite-pa.clients6.google.com
+DOMAIN,bard.google.com
 DOMAIN,gemini.google.com
 DOMAIN,generativelanguage.googleapis.com
 
-DOMAIN-SUFFIX,anthropic.com
-DOMAIN-SUFFIX,anysphere.inc
+# OpenAI / ChatGPT
 DOMAIN-SUFFIX,chatgpt.com
-DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,claudeusercontent.com
-DOMAIN-SUFFIX,cursor-cdn.com
-DOMAIN-SUFFIX,cursor.com
-DOMAIN-SUFFIX,cursor.sh
-DOMAIN-SUFFIX,deepl.com
-DOMAIN-SUFFIX,deepl.io
-DOMAIN-SUFFIX,elevenlabs.io
-DOMAIN-SUFFIX,github.com
-DOMAIN-SUFFIX,githubcopilot.com
-DOMAIN-SUFFIX,google.dev
-DOMAIN-SUFFIX,grok.com
-DOMAIN-SUFFIX,jetbrains.ai
 DOMAIN-SUFFIX,oaistatic.com
 DOMAIN-SUFFIX,oaiusercontent.com
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,openaimerge.com
-DOMAIN-SUFFIX,openrouter.ai
-DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-SUFFIX,sora.com
+
+# Anthropic / Claude
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claudeusercontent.com
+
+# DeepSeek
+DOMAIN-SUFFIX,deepseek.com
+
+# Perplexity
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,pplx.ai
+
+# xAI / Grok
+DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,x.ai
+
+# OpenRouter
+DOMAIN-SUFFIX,openrouter.ai
+
+# Cursor IDE & Auth
+DOMAIN-SUFFIX,anysphere.inc
+DOMAIN-SUFFIX,cursor-cdn.com
+DOMAIN-SUFFIX,cursor.com
+DOMAIN-SUFFIX,cursor.sh
 DOMAIN-SUFFIX,workos.com
 DOMAIN-SUFFIX,workoscdn.com
-DOMAIN-SUFFIX,x.ai
+
+# GitHub Copilot & JetBrains AI
+DOMAIN-SUFFIX,github.com
+DOMAIN-SUFFIX,githubcopilot.com
+DOMAIN-SUFFIX,jetbrains.ai
+
+# HuggingFace, Mistral, Cohere & Replicate
+DOMAIN-SUFFIX,cohere.com
+DOMAIN-SUFFIX,huggingface.co
+DOMAIN-SUFFIX,mistral.ai
+DOMAIN-SUFFIX,replicate.com
+DOMAIN-SUFFIX,replicate.delivery
+
+# Media / Voice AI (Midjourney, Runway, ElevenLabs)
+DOMAIN-SUFFIX,elevenlabs.io
+DOMAIN-SUFFIX,midjourney.com
+DOMAIN-SUFFIX,runwayml.com
+
+# DeepL (Translation)
+DOMAIN-SUFFIX,deepl.com
+DOMAIN-SUFFIX,deepl.io
+
+# Developer Docs / Other Google Dev
+DOMAIN-SUFFIX,google.dev
