@@ -1,20 +1,86 @@
-#DIRECT
+# === Национальные зоны РФ ===
 DOMAIN-SUFFIX,ru
+DOMAIN-SUFFIX,su
+DOMAIN-SUFFIX,moscow
 DOMAIN-SUFFIX,xn--p1ai
+DOMAIN-SUFFIX,xn--p1acf
+DOMAIN-SUFFIX,xn--80adxhks
+DOMAIN-SUFFIX,xn--80aswg
+DOMAIN-SUFFIX,xn--80asehdb
+DOMAIN-SUFFIX,xn--d1acj3b
+
+# === Яндекс ===
 DOMAIN-KEYWORD,yandex
 DOMAIN-KEYWORD,yastatic
+
+# === VK / Mail.ru Group ===
 DOMAIN-SUFFIX,vk.com
 DOMAIN-SUFFIX,vk.me
+DOMAIN-SUFFIX,vkontakte.com
 DOMAIN-SUFFIX,vk-cdn.net
 DOMAIN-SUFFIX,vk-portal.net
 DOMAIN-SUFFIX,vkuseraudio.net
 DOMAIN-SUFFIX,vkuservideo.net
 DOMAIN-SUFFIX,userapi.com
 DOMAIN-SUFFIX,mycdn.me
-DOMAIN-SUFFIX,2gis.com
-DOMAIN-SUFFIX,doublegis.com
+DOMAIN-SUFFIX,mradx.net
+DOMAIN-SUFFIX,my.games
+
+# === Маркетплейсы, Доставка и Ритейл ===
+DOMAIN-SUFFIX,wbstatic.net
 DOMAIN-SUFFIX,ozon.pro
 DOMAIN-SUFFIX,ozonusercontent.com
 DOMAIN-SUFFIX,avito.st
+DOMAIN-SUFFIX,lamoda.com
+DOMAIN-SUFFIX,lamcdn.net
+DOMAIN-SUFFIX,lamoda.tech
+DOMAIN-SUFFIX,flowwow.com
+DOMAIN-SUFFIX,cdek.shopping
+DOMAIN-SUFFIX,lenta.com
+DOMAIN-SUFFIX,lenta.shop
+DOMAIN-SUFFIX,chizhik.club
+DOMAIN-SUFFIX,x5.com
+DOMAIN-SUFFIX,x5.tech
+DOMAIN-SUFFIX,magnit.tech
+DOMAIN-SUFFIX,samokat.tech
+DOMAIN-SUFFIX,kuper.tech
+DOMAIN-SUFFIX,vkusvill.media
+DOMAIN-SUFFIX,dodopizza.com
+DOMAIN-SUFFIX,dodostatic.net
+DOMAIN-SUFFIX,dodo.is
+
+# === Fashion, Одежда, Обувь ===
+DOMAIN-SUFFIX,kari.com
+DOMAIN-SUFFIX,ostin.com
+DOMAIN-SUFFIX,fundayshop.com
+DOMAIN-SUFFIX,12storeez.com
+DOMAIN-SUFFIX,lime-shop.com
+DOMAIN-SUFFIX,melonfashion.com
+
+# === Косметика, Ювелирные, Спорт, Детские ===
+DOMAIN-SUFFIX,goldapple.com
+DOMAIN-SUFFIX,sunlight.net
+DOMAIN-SUFFIX,sokolov.com
+DOMAIN-SUFFIX,sportmaster.com
+DOMAIN-SUFFIX,detmir.com
+DOMAIN-SUFFIX,detmir.st
+
+# === Электроника ===
+DOMAIN-SUFFIX,citilink.com
+DOMAIN-SUFFIX,mvideo.com
+
+# === Гео / Навигация ===
+DOMAIN-SUFFIX,2gis.com
+DOMAIN-SUFFIX,doublegis.com
+
+# === Медиа / Стриминг / IT ===
+DOMAIN-SUFFIX,okko.tv
+DOMAIN-SUFFIX,okko.sport
+DOMAIN-SUFFIX,premier.one
 DOMAIN-SUFFIX,habr.com
-#DOMAIN-SUFFIX,salebot.pro
+
+# === Сбер / Экосистема ===
+DOMAIN-SUFFIX,sberdevices.com
+DOMAIN-SUFFIX,sbercloud.market
+DOMAIN-SUFFIX,sberzvuk.com
+DOMAIN-SUFFIX,zvuk.com
