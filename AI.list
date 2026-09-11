@@ -36,15 +36,8 @@ DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN,servd-anthropic-website.b-cdn.net
 
 # --- Google Gemini / AI Studio / NotebookLM ---
-DOMAIN,aistudio.google.com
-DOMAIN,gemini.google.com
-DOMAIN,bard.google.com
-DOMAIN,makersuite.google.com
-DOMAIN,generativelanguage.googleapis.com
-DOMAIN,alkalimakersuite-pa.clients6.google.com
-DOMAIN,proactivebackend-pa.googleapis.com
-DOMAIN,waa-pa.googleapis.com
-DOMAIN,notebooklm.google.com
+DOMAIN,google.com
+DOMAIN,googleapis.com
 DOMAIN,stitch.withgoogle.com
 DOMAIN-SUFFIX,ai.google.dev
 DOMAIN-SUFFIX,google.dev
