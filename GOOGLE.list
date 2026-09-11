@@ -1,20 +1,9 @@
 #GOOGLE
-#Заготовка на будущее: ни в одном конфиге не подключён.
-#Всё, что относится к Google, кроме зоны .ru и кроме YouTube (он в YOUTUBE.list).
 DOMAIN,google.com
-DOMAIN,www.google.com
-DOMAIN,photos.google.com
-DOMAIN,docs.google.com
-DOMAIN,meet.google.com
-DOMAIN,play.google.com
-DOMAIN,tagassistant.google.com
-DOMAIN,tagmanager.google.com
-DOMAIN,analytics.google.com
-DOMAIN,ga-dev-tools.google
 DOMAIN-SUFFIX,googletagmanager.com
 DOMAIN-SUFFIX,appspot.com
 DOMAIN-SUFFIX,gmail.com
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,googleapis.com
 DOMAIN-SUFFIX,googlesyndication.com
-#DOMAIN-SUFFIX,googleusercontent.com
+DOMAIN-SUFFIX,googleusercontent.com
